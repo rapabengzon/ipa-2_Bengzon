@@ -38,7 +38,9 @@ def shift_letter(letter, shift):
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-    if (alphabet.index(letter)+shift)<=25:
+    if letter == '' or letter == ' ':
+        return('')
+    elif (alphabet.index(letter)+shift)<=25:
         new_index=alphabet.index(letter)+shift
     else:
         new_index=(alphabet.index(letter)+shift)-26
@@ -67,15 +69,13 @@ def caesar_cipher(message, shift):
     alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     new_string = ""
     for letter in message:
-        if (alphabet.index(letter)+shift)<=25:
-            new_index=alphabet.index(letter)+shift
-            new_letter=alphabet[new_index]
-            new_string+=new_letter
+        if letter ==' ':
+            new_letter = ' '
         else:
-            new_index=(alphabet.index(letter)+shift)-26
+            new_index=(alphabet.index(letter)+shift)%26
             new_letter=alphabet[new_index]
-            new_string+=new_letter
-    return new_string   
+        new_string+=new_letter
+    return(new_string)
 
 def shift_by_letter(letter, letter_shift):
     '''Shift By Letter.
@@ -106,10 +106,10 @@ def shift_by_letter(letter, letter_shift):
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-    if alphabet.index(letter)+alphabet.index(letter_shift)<=25:
-        new_index=alphabet.index(letter)+alphabet.index(letter_shift)
+    if letter == ' ' or letter == '':
+        return(letter)
     else:
-        new_index=alphabet.index(letter)+alphabet.index(letter_shift)-26
+        new_index=(alphabet.index(letter)+alphabet.index(letter_shift))%26
     return alphabet[new_index]
 
 def vigenere_cipher(message, key):
@@ -148,21 +148,20 @@ def vigenere_cipher(message, key):
     if len(key)<len(message):
         repeat=len(message)//len(key)
         remainder=len(message)%len(key)
-        updated_key=key*repeat*key[:remainder]
+        updated_key=key*repeat+key[:remainder]
     else:
         updated_key=key
     for letter in message:
             key_index=0
-            if (alphabet.index(letter)+alphabet.index(updated_key[key_index]))<=25:
-                new_index=alphabet.index(letter)+alphabet.index(updated_key[key_index])
-                new_letter=alphabet[new_index]
-                new_string+=new_letter
+            if letter == ' ':
+                new_letter=' '
                 key_index+=1
             else:
-                new_index=alphabet.index(letter)+alphabet.index(updated_key[key_index])-26
+                new_index=alphabet.index(letter)+alphabet.index(updated_key[key_index])%26
                 new_letter=alphabet[new_index]
-                new_string+=new_letter
                 key_index+=1
+            new_string+=new_letter
+    return new_string
 
         
 
