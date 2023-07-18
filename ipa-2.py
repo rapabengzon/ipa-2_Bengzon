@@ -40,11 +40,11 @@ def shift_letter(letter, shift):
     alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     if letter == '' or letter == ' ':
         return('')
-    elif (alphabet.index(letter)+shift)<=25:
-        new_index=alphabet.index(letter)+shift
+    elif shift == 0:
+        return(letter)
     else:
-        new_index=(alphabet.index(letter)+shift)-26
-    return alphabet[new_index]
+        new_index=(alphabet.index(letter)+shift)%26
+        return alphabet[new_index]
 
 def caesar_cipher(message, shift):
     '''Caesar Cipher.
@@ -144,25 +144,21 @@ def vigenere_cipher(message, key):
     # Replace `pass` with your code.
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     alphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-    new_string=""
     if len(key)<len(message):
         repeat=len(message)//len(key)
         remainder=len(message)%len(key)
         updated_key=key*repeat+key[:remainder]
     else:
         updated_key=key
-    for letter in message:
-            key_index=0
-            if letter == ' ':
-                new_letter=' '
-                key_index+=1
-            else:
-                new_index=alphabet.index(letter)+alphabet.index(updated_key[key_index])%26
-                new_letter=alphabet[new_index]
-                key_index+=1
-            new_string+=new_letter
+    new_string=""
+    for i in range(len(message)):
+        if message[i] == " " or '':
+            new_letter=" "
+        else:
+            new_index = (alphabet.index(message[i])+alphabet.index(updated_key[i]))%26
+            new_letter = alphabet[new_index]
+        new_string+=new_letter
     return new_string
-
         
 
 def scytale_cipher(message, shift):
